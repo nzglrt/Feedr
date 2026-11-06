@@ -20,7 +20,10 @@ Feedr is an open-source RSS and podcast reader designed to provide a clean, dist
 
 # Screenshots
 
-Screenshots are available in the docs/ directory.
+<p align="center">
+  <img src="docs/screenshots/home.png" width="250">
+  <img src="docs/screenshots/saved-articles.png" width="250">
+</p>
 
 
 # Building
