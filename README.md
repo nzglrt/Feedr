@@ -11,18 +11,19 @@ Feedr is an open-source RSS and podcast reader designed to provide a clean, dist
 
 - **Minimalist Dark Interface:** A clean, dark design focused on readability and simplicity.
 
-- **Topic-based Tabs:** Personalize the app's appearance with different themes.
+- **Topic-based Tabs:** Browse news through separate tabs organized by topics such as technology, education, science, sports, and more.
 
 - **Pinned Articles:** Pin news and articles to read later.
 
 - **Notification Digests:** Receive summarized notifications to stay up to date without constant interruptions.
 
 
-# Screenshots
+## Screenshots
 
 <p align="center">
-  <img src="docs/screenshots/home.png" width="250">
-  <img src="docs/screenshots/saved-articles.png" width="250">
+  <img src="screenshots/home.jpeg" width="250">
+  <img src="screenshots/pinned.jpeg" width="250">
+  <img src="screenshots/notifications.jpeg" width="250">
 </p>
 
 

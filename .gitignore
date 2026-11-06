@@ -1,15 +1,26 @@
-# Android build
+# Android
+build/
 app/build/
 captures/
 .externalNativeBuild/
 .cxx/
 
 # Gradle
+.gradle/
 !gradle/wrapper/gradle-wrapper.jar
 
 # IDE
+.idea/
 *.iml
 out/
+
+# Local configuration
+local.properties
+
+# Signing files
+*.jks
+*.keystore
+keystore.properties
 
 # Environment
 .env
