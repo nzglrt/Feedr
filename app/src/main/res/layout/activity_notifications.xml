@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:paddingTop="6dp" android:paddingBottom="6dp">
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:paddingStart="16dp" android:paddingEnd="12dp"
+            android:paddingTop="4dp" android:paddingBottom="8dp"
+            android:text="‹" android:textColor="@color/text" android:textSize="34sp" />
+        <TextView
+            android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Notificações"
+            android:textColor="@color/text" android:textSize="20sp" android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1" android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:paddingBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:paddingTop="12dp" android:paddingBottom="12dp">
+                <LinearLayout
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Receber notificações"
+                        android:textColor="@color/text" android:textSize="17sp" android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Um resumo por vez, sem vibrar a cada notícia"
+                        android:textColor="@color/muted" android:textSize="12sp" />
+                </LinearLayout>
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/swMaster"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rowInterval"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:paddingTop="14dp" android:paddingBottom="14dp"
+                android:background="?android:attr/selectableItemBackground">
+                <TextView
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="Frequência do resumo"
+                    android:textColor="@color/text" android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/intervalValue"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="@color/accent" android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:paddingTop="10dp" android:paddingBottom="10dp">
+                <LinearLayout
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Silêncio à noite"
+                        android:textColor="@color/text" android:textSize="16sp" />
+                    <TextView
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Das 22h às 7h. As novidades chegam num resumo depois."
+                        android:textColor="@color/muted" android:textSize="12sp" />
+                </LinearLayout>
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/swQuiet"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:paddingTop="20dp" android:paddingBottom="8dp">
+                <TextView
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="AVISAR DESTES SITES"
+                    android:textColor="@color/muted" android:textSize="12sp" android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/btnAll"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:padding="6dp" android:text="Todos"
+                    android:textColor="@color/accent" android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/btnNone"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:padding="6dp" android:text="Nenhum"
+                    android:textColor="@color/accent" android:textSize="13sp" />
+            </LinearLayout>
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/search_bg" android:padding="14dp"
+                android:hint="Buscar site" android:singleLine="true"
+                android:inputType="text" android:imeOptions="actionSearch"
+                android:textColor="@color/text" android:textColorHint="@color/muted"
+                android:textSize="15sp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFeeds"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+            <TextView
+                android:id="@+id/emptyFeeds"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:padding="20dp" android:text="Nenhum feed encontrado."
+                android:textColor="@color/muted" android:textSize="14sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
