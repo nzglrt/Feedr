@@ -38,19 +38,22 @@ The following requirements are needed:
 
  1. Clone the repository:
 
-    ```git clone https://github.com/YOUR_USERNAME/Feedr.git```
+     ```bash
+    git clone https://github.com/YOUR_USERNAME/Feedr.git
 
-2. Open the project in Android Studio.
+3. Open the project in Android Studio.
 
-3. Wait for Gradle to sync and download the required dependencies.
+4. Wait for Gradle to sync and download the required dependencies.
 
-4. Build the application using Android Studio or run:
+5. Build the application using Android Studio or run:
 
-   ```./gradlew assembleDebug```
+   ```bash
+   ./gradlew assembleDebug
 
-5. The generated APK will be available at:
+7. The generated APK will be available at:
 
-   ```app/build/outputs/apk/debug/app-debug.apk```
+   ```bash
+   app/build/outputs/apk/debug/app-debug.apk
 
 
 # Third-party Services
