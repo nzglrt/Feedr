@@ -1,7 +1,16 @@
-build/
-.gradle/
-.idea/
-local.properties
-*.jks
-*.keystore
-keystore.properties
+# Android build
+app/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Gradle
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+*.iml
+out/
+
+# Environment
+.env
+.env.*
