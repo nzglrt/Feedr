@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Feedr</string>
+    <string name="lang_pt" translatable="false">Português</string>
+    <string name="lang_en" translatable="false">English</string>
+    <string name="podcast_label" translatable="false">Podcast</string>
+    <string name="feeds_label" translatable="false">FEEDS</string>
+
+    <string name="filter_by_site">Filtrar por site</string>
+    <string name="nothing_here">Nada por aqui ainda</string>
+    <string name="cd_pinned">Salvas</string>
+    <string name="cd_notifications">Notificações</string>
+    <string name="cd_settings">Configurações</string>
+    <string name="cd_podcasts">Podcasts</string>
+    <string name="cd_story_photo">Foto da notícia</string>
+    <string name="cd_site_icon">Ícone do site</string>
+    <string name="cd_pin">Salvar para depois</string>
+    <string name="listen_episode">▶  Ouvir episódio</string>
+    <string name="no_app_for_link">Nenhum app para abrir o link</string>
+    <string name="ago_now">agora</string>
+
+    <string name="pinned_title">Salvas</string>
+    <string name="pinned_empty">Nenhuma notícia salva ainda.\nToque no alfinete de um card ou arraste-o para a direita.</string>
+
+    <string name="settings_title">Configurações</string>
+    <string name="language_label">Idioma</string>
+    <string name="themes_open">TEMAS  ▾</string>
+    <string name="themes_closed">TEMAS  ▸   %1$d de %2$d ativos</string>
+    <string name="themes_hint">Arraste o ≡ para ordenar. Segure um tema criado por você para apagar.</string>
+    <string name="new_theme_btn">+  Novo tema</string>
+    <string name="search_feeds">Buscar feeds</string>
+    <string name="no_feeds_found_add">Nenhum feed encontrado. Toque em + para adicionar.</string>
+    <string name="add_feeds_title">Adicionar feeds</string>
+    <string name="add_feeds_hint">Um por linha:\nsite.com\nhttps://outro.com/feed</string>
+    <string name="add">Adicionar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="searching_one">Buscando…</string>
+    <string name="searching_many">Buscando %1$d feeds…</string>
+    <string name="feed_not_found">Não encontrei um feed nesse endereço</string>
+    <string name="feed_already">Esse feed já está na lista</string>
+    <string name="feed_added">Adicionado: %1$s</string>
+    <string name="feeds_added_n">Adicionados: %1$d</string>
+    <string name="feeds_added_dupes">Adicionados: %1$d (%2$d já existiam)</string>
+    <string name="import_result_title">Adicionados %1$d de %2$d</string>
+    <string name="import_failed_msg">Não encontrei feed em:\n\n%1$s</string>
+    <string name="ok">OK</string>
+    <string name="opt_rename">Renomear</string>
+    <string name="opt_country">País (bandeira)</string>
+    <string name="opt_fixed_theme">Tema fixo</string>
+    <string name="opt_remove">Remover</string>
+    <string name="remove_q">Remover %1$s?</string>
+    <string name="rename_title">Renomear</string>
+    <string name="save">Salvar</string>
+    <string name="country_of">País de %1$s</string>
+    <string name="automatic">Automático</string>
+    <string name="theme_of">Tema de %1$s</string>
+    <string name="automatic_by_topic">Automático (por assunto)</string>
+    <string name="new_theme_title">Novo tema</string>
+    <string name="new_theme_name_hint">Nome do tema (ex.: Cripto)</string>
+    <string name="new_theme_keys_hint">Palavras-chave, separadas por vírgula</string>
+    <string name="create">Criar</string>
+    <string name="fill_theme">Preencha o nome e ao menos uma palavra-chave</string>
+    <string name="delete_theme_q">Apagar o tema %1$s?</string>
+    <string name="delete">Apagar</string>
+    <string name="feed_sub_theme">Tema: %1$s</string>
+    <string name="country_eu">União Europeia</string>
+
+    <string name="notif_title">Notificações</string>
+    <string name="notif_receive">Receber notificações</string>
+    <string name="notif_receive_sub">Um resumo por vez, sem vibrar a cada notícia</string>
+    <string name="notif_freq">Frequência do resumo</string>
+    <string name="notif_quiet">Silêncio à noite</string>
+    <string name="notif_quiet_sub">Das 22h às 7h. As novidades chegam num resumo depois.</string>
+    <string name="notif_sites">AVISAR DESTES SITES</string>
+    <string name="all_label">Todos</string>
+    <string name="none_label">Nenhum</string>
+    <string name="search_site">Buscar site</string>
+    <string name="no_feeds_simple">Nenhum feed encontrado.</string>
+    <string name="every_1h">A cada 1 hora</string>
+    <string name="every_3h">A cada 3 horas</string>
+    <string name="every_6h">A cada 6 horas</string>
+    <string name="interval_1h">1 hora</string>
+    <string name="interval_3h">3 horas</string>
+    <string name="interval_6h">6 horas</string>
+    <string name="perm_denied">Sem permissão, as notificações ficam desligadas. Libere nas configurações do Android.</string>
+    <string name="pick_sites_hint">Agora escolha de quais sites você quer receber avisos</string>
+    <string name="channel_name">Resumo de notícias</string>
+    <string name="channel_desc">Resumo das novidades dos sites que você escolheu</string>
+    <string name="digest_title">%1$d novas • %2$s</string>
+    <string name="digest_more">+%1$d mais</string>
+
+    <string name="theme_inicio">Início</string>
+    <string name="theme_politica">Política</string>
+    <string name="theme_economia">Economia</string>
+    <string name="theme_mundo">Mundo</string>
+    <string name="theme_tecnologia">Tecnologia</string>
+    <string name="theme_ciencia">Ciência</string>
+    <string name="theme_nasa" translatable="false">NASA</string>
+    <string name="theme_papers" translatable="false">Papers</string>
+    <string name="theme_saude">Saúde</string>
+    <string name="theme_esportes">Esportes</string>
+    <string name="theme_f1" translatable="false">F1</string>
+    <string name="theme_esports">E-sports</string>
+    <string name="theme_entretenimento">Entretenimento</string>
+    <string name="theme_games" translatable="false">Games</string>
+    <string name="theme_educacao">Educação</string>
+    <string name="theme_meioambiente">Meio ambiente</string>
+</resources>

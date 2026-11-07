@@ -43,7 +43,7 @@ class ThemeAdapter(
 
     override fun onBindViewHolder(h: VH, i: Int) {
         val t = items[i]
-        h.name.text = Themes.name(t.id)
+        h.name.text = Themes.name(h.itemView.context, t.id)
         h.sw.setOnCheckedChangeListener(null)
         h.sw.isChecked = t.on
         h.sw.setOnCheckedChangeListener { _, c -> t.on = c; onChange() }
@@ -75,13 +75,14 @@ class FeedRowAdapter(private val onClick: (Feed) -> Unit) : RecyclerView.Adapter
 
     override fun onBindViewHolder(h: VH, i: Int) {
         val f = items[i]
+        val ctx = h.itemView.context
         val host = runCatching { URL(f.url).host }.getOrDefault("")
         h.title.text = f.title
         val parts = mutableListOf(host)
         val flag = Country.flag(f.country.ifBlank { Country.guess(listOf(host), "") })
         if (flag.isNotEmpty()) parts.add(flag)
-        if (f.podcast) parts.add("Podcast")
-        if (f.theme != null) parts.add("Tema: " + Themes.name(f.theme))
+        if (f.podcast) parts.add(ctx.getString(R.string.podcast_label))
+        if (f.theme != null) parts.add(ctx.getString(R.string.feed_sub_theme, Themes.name(ctx, f.theme)))
         h.sub.text = parts.joinToString(" • ")
         loadIcon(h.icon, Rss.iconChain(host, f.icon, f.podcast))
         h.itemView.setOnClickListener { onClick(f) }
@@ -109,6 +110,10 @@ class SettingsActivity : AppCompatActivity() {
         findViewById<View>(R.id.btnBack).setOnClickListener { finish() }
         findViewById<View>(R.id.btnAdd).setOnClickListener { addFeed() }
         findViewById<View>(R.id.btnNewTheme).setOnClickListener { newTheme() }
+
+        findViewById<TextView>(R.id.languageValue).text =
+            getString(if (Lang.code(this) == "en") R.string.lang_en else R.string.lang_pt)
+        findViewById<View>(R.id.rowLanguage).setOnClickListener { pickLanguage() }
 
         themesHeader.setOnClickListener {
             themesBody.visibility = if (themesBody.visibility == View.VISIBLE) View.GONE else View.VISIBLE
@@ -159,10 +164,17 @@ class SettingsActivity : AppCompatActivity() {
         refreshFeeds()
     }
 
+    private fun pickLanguage() {
+        AlertDialog.Builder(this).setTitle(R.string.language_label)
+            .setItems(arrayOf(getString(R.string.lang_pt), getString(R.string.lang_en))) { _, i ->
+                Lang.set(this, if (i == 0) "pt" else "en")
+            }.show()
+    }
+
     private fun renderHeader() {
         val open = themesBody.visibility == View.VISIBLE
-        themesHeader.text = if (open) "TEMAS  ▾"
-        else "TEMAS  ▸   ${themes.count { it.on }} de ${themes.size} ativos"
+        themesHeader.text = if (open) getString(R.string.themes_open)
+        else getString(R.string.themes_closed, themes.count { it.on }, themes.size)
     }
 
     private fun reloadThemes() {
@@ -177,24 +189,24 @@ class SettingsActivity : AppCompatActivity() {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(20), dp(8), dp(20), 0)
         }
-        val name = EditText(this).apply { hint = "Nome do tema (ex.: Cripto)"; setSingleLine() }
-        val keys = EditText(this).apply { hint = "Palavras-chave, separadas por vírgula" }
+        val name = EditText(this).apply { hint = getString(R.string.new_theme_name_hint); setSingleLine() }
+        val keys = EditText(this).apply { hint = getString(R.string.new_theme_keys_hint) }
         box.addView(name)
         box.addView(keys)
-        AlertDialog.Builder(this).setTitle("Novo tema").setView(box)
-            .setPositiveButton("Criar") { _, _ ->
+        AlertDialog.Builder(this).setTitle(R.string.new_theme_title).setView(box)
+            .setPositiveButton(R.string.create) { _, _ ->
                 val n = name.text.toString().trim()
                 val k = keys.text.toString().split(",").map { it.trim() }.filter { it.isNotEmpty() }
                 if (n.isNotEmpty() && k.isNotEmpty()) { store.addCustomTheme(n, k); reloadThemes() }
-                else toast("Preencha o nome e ao menos uma palavra-chave")
+                else toast(getString(R.string.fill_theme))
             }
-            .setNegativeButton("Cancelar", null).show()
+            .setNegativeButton(R.string.cancel, null).show()
     }
 
     private fun removeTheme(t: ThemePref) {
-        AlertDialog.Builder(this).setTitle("Apagar o tema ${Themes.name(t.id)}?")
-            .setPositiveButton("Apagar") { _, _ -> store.removeCustomTheme(t.id); reloadThemes() }
-            .setNegativeButton("Cancelar", null).show()
+        AlertDialog.Builder(this).setTitle(getString(R.string.delete_theme_q, Themes.name(this, t.id)))
+            .setPositiveButton(R.string.delete) { _, _ -> store.removeCustomTheme(t.id); reloadThemes() }
+            .setNegativeButton(R.string.cancel, null).show()
     }
 
     private fun refreshFeeds() {
@@ -207,23 +219,23 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun addFeed() {
         val input = EditText(this).apply {
-            hint = "Um por linha:\nsite.com\nhttps://outro.com/feed"
+            hint = getString(R.string.add_feeds_hint)
             minLines = 4
             gravity = Gravity.TOP or Gravity.START
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI or
                 InputType.TYPE_TEXT_FLAG_MULTI_LINE
         }
-        AlertDialog.Builder(this).setTitle("Adicionar feeds").setView(input)
-            .setPositiveButton("Adicionar") { _, _ ->
+        AlertDialog.Builder(this).setTitle(R.string.add_feeds_title).setView(input)
+            .setPositiveButton(R.string.add) { _, _ ->
                 val urls = input.text.toString().split(Regex("[\\s,;]+"))
                     .map { it.trim() }.filter { it.isNotEmpty() }.distinct()
                 if (urls.isNotEmpty()) importFeeds(urls)
             }
-            .setNegativeButton("Cancelar", null).show()
+            .setNegativeButton(R.string.cancel, null).show()
     }
 
     private fun importFeeds(urls: List<String>) {
-        toast(if (urls.size == 1) "Buscando…" else "Buscando ${urls.size} feeds…")
+        toast(if (urls.size == 1) getString(R.string.searching_one) else getString(R.string.searching_many, urls.size))
         Thread {
             val pool = Executors.newFixedThreadPool(4)
             val tasks = urls.map { u -> Callable<Feed?> { runCatching { Rss.discover(u) }.getOrNull() } }
@@ -235,50 +247,55 @@ class SettingsActivity : AppCompatActivity() {
             runOnUiThread {
                 refreshFeeds()
                 when {
-                    urls.size == 1 && found.isEmpty() -> toast("Não encontrei um feed nesse endereço")
-                    urls.size == 1 && added == 0 -> toast("Esse feed já está na lista")
-                    urls.size == 1 -> toast("Adicionado: ${found[0].title}")
+                    urls.size == 1 && found.isEmpty() -> toast(getString(R.string.feed_not_found))
+                    urls.size == 1 && added == 0 -> toast(getString(R.string.feed_already))
+                    urls.size == 1 -> toast(getString(R.string.feed_added, found[0].title))
                     failed.isEmpty() -> toast(
-                        "Adicionados: $added" + if (found.size > added) " (${found.size - added} já existiam)" else ""
+                        if (found.size > added) getString(R.string.feeds_added_dupes, added, found.size - added)
+                        else getString(R.string.feeds_added_n, added)
                     )
-                    else -> AlertDialog.Builder(this).setTitle("Adicionados $added de ${urls.size}")
-                        .setMessage("Não encontrei feed em:\n\n" + failed.joinToString("\n"))
-                        .setPositiveButton("OK", null).show()
+                    else -> AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.import_result_title, added, urls.size))
+                        .setMessage(getString(R.string.import_failed_msg, failed.joinToString("\n")))
+                        .setPositiveButton(R.string.ok, null).show()
                 }
             }
         }.start()
     }
 
     private fun showOptions(f: Feed) {
-        val opts = mutableListOf("Renomear", "País (bandeira)")
-        if (!f.podcast) opts.add("Tema fixo")
-        opts.add("Remover")
+        val opts = mutableListOf(getString(R.string.opt_rename), getString(R.string.opt_country))
+        val themeLabel = getString(R.string.opt_fixed_theme)
+        if (!f.podcast) opts.add(themeLabel)
+        val removeLabel = getString(R.string.opt_remove)
+        opts.add(removeLabel)
         AlertDialog.Builder(this).setTitle(f.title)
             .setItems(opts.toTypedArray()) { _, i ->
                 when (opts[i]) {
-                    "Renomear" -> rename(f)
-                    "País (bandeira)" -> pickCountry(f)
-                    "Tema fixo" -> pickTheme(f)
-                    else -> AlertDialog.Builder(this).setTitle("Remover ${f.title}?")
-                        .setPositiveButton("Remover") { _, _ -> store.remove(f); refreshFeeds() }
-                        .setNegativeButton("Cancelar", null).show()
+                    getString(R.string.opt_rename) -> rename(f)
+                    getString(R.string.opt_country) -> pickCountry(f)
+                    themeLabel -> pickTheme(f)
+                    else -> AlertDialog.Builder(this).setTitle(getString(R.string.remove_q, f.title))
+                        .setPositiveButton(R.string.opt_remove) { _, _ -> store.remove(f); refreshFeeds() }
+                        .setNegativeButton(R.string.cancel, null).show()
                 }
             }.show()
     }
 
     private fun rename(f: Feed) {
         val input = EditText(this).apply { setText(f.title); setSingleLine() }
-        AlertDialog.Builder(this).setTitle("Renomear").setView(input)
-            .setPositiveButton("Salvar") { _, _ ->
+        AlertDialog.Builder(this).setTitle(R.string.rename_title).setView(input)
+            .setPositiveButton(R.string.save) { _, _ ->
                 val n = input.text.toString().trim()
                 if (n.isNotEmpty()) { store.update(f.copy(title = n)); refreshFeeds() }
             }
-            .setNegativeButton("Cancelar", null).show()
+            .setNegativeButton(R.string.cancel, null).show()
     }
 
     private fun pickCountry(f: Feed) {
-        val names = (listOf("Automático") + Country.list.map { Country.flag(it.first) + "  " + it.second }).toTypedArray()
-        AlertDialog.Builder(this).setTitle("País de ${f.title}")
+        val names = (listOf(getString(R.string.automatic)) +
+            Country.list.map { Country.flag(it.first) + "  " + Country.displayName(this, it.first) }).toTypedArray()
+        AlertDialog.Builder(this).setTitle(getString(R.string.country_of, f.title))
             .setItems(names) { _, i ->
                 store.update(f.copy(country = if (i == 0) "" else Country.list[i - 1].first))
                 refreshFeeds()
@@ -287,8 +304,8 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun pickTheme(f: Feed) {
         val list = Themes.all().filter { it.id != "inicio" }
-        val names = (listOf("Automático (por assunto)") + list.map { it.name }).toTypedArray()
-        AlertDialog.Builder(this).setTitle("Tema de ${f.title}")
+        val names = (listOf(getString(R.string.automatic_by_topic)) + list.map { Themes.name(this, it.id) }).toTypedArray()
+        AlertDialog.Builder(this).setTitle(getString(R.string.theme_of, f.title))
             .setItems(names) { _, i ->
                 store.update(f.copy(theme = if (i == 0) null else list[i - 1].id))
                 refreshFeeds()

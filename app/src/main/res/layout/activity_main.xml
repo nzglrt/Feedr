@@ -21,17 +21,17 @@
             android:id="@+id/btnSaved"
             android:layout_width="44dp" android:layout_height="44dp"
             android:padding="10dp" android:src="@drawable/ic_pin_filled"
-            android:contentDescription="Salvas" />
+            android:contentDescription="@string/cd_pinned" />
         <ImageView
             android:id="@+id/btnNotify"
             android:layout_width="44dp" android:layout_height="44dp"
             android:padding="10dp" android:src="@drawable/ic_bell_off"
-            android:contentDescription="Notificações" />
+            android:contentDescription="@string/cd_notifications" />
         <ImageView
             android:id="@+id/btnSettings"
             android:layout_width="44dp" android:layout_height="44dp"
             android:padding="10dp" android:src="@drawable/ic_settings"
-            android:tint="@color/muted" android:contentDescription="Configurações" />
+            android:tint="@color/muted" android:contentDescription="@string/cd_settings" />
     </LinearLayout>
 
     <EditText
@@ -40,7 +40,7 @@
         android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/search_bg" android:padding="12dp"
-        android:hint="Filtrar por site" android:singleLine="true"
+        android:hint="@string/filter_by_site" android:singleLine="true"
         android:inputType="text" android:imeOptions="actionSearch"
         android:textColor="@color/text" android:textColorHint="@color/muted"
         android:textSize="14sp" />
@@ -59,7 +59,7 @@
         <TextView
             android:id="@+id/empty"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_gravity="center" android:text="Nada por aqui ainda"
+            android:layout_gravity="center" android:text="@string/nothing_here"
             android:textColor="@color/muted" android:textSize="15sp"
             android:visibility="gone" />
     </FrameLayout>
@@ -74,7 +74,7 @@
             android:id="@+id/tabPodcasts"
             android:layout_width="56dp" android:layout_height="56dp"
             android:padding="16dp" android:src="@drawable/ic_headset"
-            android:contentDescription="Podcasts" />
+            android:contentDescription="@string/cd_podcasts" />
         <View android:layout_width="1dp" android:layout_height="24dp"
             android:background="@color/divider" />
         <HorizontalScrollView

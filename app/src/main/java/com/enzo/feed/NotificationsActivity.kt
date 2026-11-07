@@ -80,7 +80,7 @@ class NotificationsActivity : AppCompatActivity() {
         if (ok) enable()
         else {
             setMaster(false)
-            toast("Sem permissão, as notificações ficam desligadas. Libere nas configurações do Android.")
+            toast(getString(R.string.perm_denied))
         }
     }
 
@@ -124,7 +124,7 @@ class NotificationsActivity : AppCompatActivity() {
         np.enabled = true
         NotifyScheduler.apply(this)
         NotifyScheduler.baselineNow(this)
-        if (store.feeds().none { np.feedOn(it.url) }) toast("Agora escolha de quais sites você quer receber avisos")
+        if (store.feeds().none { np.feedOn(it.url) }) toast(getString(R.string.pick_sites_hint))
     }
 
     private fun filtered() = store.feeds().filter {
@@ -144,13 +144,13 @@ class NotificationsActivity : AppCompatActivity() {
     }
 
     private fun renderInterval() {
-        intervalValue.text = when (np.intervalMin) { 60 -> "1 hora"; 180 -> "3 horas"; else -> "6 horas" }
+        intervalValue.text = getString(when (np.intervalMin) { 60 -> R.string.interval_1h; 180 -> R.string.interval_3h; else -> R.string.interval_6h })
     }
 
     private fun pickInterval() {
         val mins = intArrayOf(60, 180, 360)
-        AlertDialog.Builder(this).setTitle("Frequência do resumo")
-            .setItems(arrayOf("A cada 1 hora", "A cada 3 horas", "A cada 6 horas")) { _, i ->
+        AlertDialog.Builder(this).setTitle(getString(R.string.notif_freq))
+            .setItems(arrayOf(getString(R.string.every_1h), getString(R.string.every_3h), getString(R.string.every_6h))) { _, i ->
                 np.intervalMin = mins[i]
                 renderInterval()
                 NotifyScheduler.apply(this)

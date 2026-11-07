@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -28,6 +29,16 @@ class SavedActivity : AppCompatActivity() {
         val rv = findViewById<RecyclerView>(R.id.list)
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = adapter
+        // Aqui só dá para apagar (esquerda): a notícia deixa de estar salva.
+        ItemTouchHelper(SwipeCallback(
+            this, false,
+            onLeft = { pos ->
+                adapter.itemAt(pos)?.let { Saved.toggle(it) }
+                adapter.removeAt(pos)
+                updateEmpty()
+            },
+            onRight = { }
+        )).attachToRecyclerView(rv)
         findViewById<View>(R.id.btnBack).setOnClickListener { finish() }
         findViewById<EditText>(R.id.search).doAfterTextChanged {
             query = it?.toString()?.trim() ?: ""
@@ -36,10 +47,14 @@ class SavedActivity : AppCompatActivity() {
         refreshList()
     }
 
+    private fun updateEmpty() {
+        empty.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.GONE
+    }
+
     private fun refreshList() {
         var l = Saved.list()
         if (query.isNotEmpty()) l = l.filter { it.source.contains(query, true) }
         adapter.submit(l)
-        empty.visibility = if (l.isEmpty()) View.VISIBLE else View.GONE
+        updateEmpty()
     }
 }

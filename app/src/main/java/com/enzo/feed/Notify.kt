@@ -225,9 +225,10 @@ class NotifyWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params)
     private fun notifyDigest(ctx: Context, items: List<Article>) {
         val nm = NotificationManagerCompat.from(ctx)
         if (!nm.areNotificationsEnabled()) return
+        val lc = Lang.localized(ctx)
         if (Build.VERSION.SDK_INT >= 26) {
-            val ch = NotificationChannel(CHANNEL, "Resumo de notícias", NotificationManager.IMPORTANCE_DEFAULT)
-            ch.description = "Resumo das novidades dos sites que você escolheu"
+            val ch = NotificationChannel(CHANNEL, lc.getString(R.string.channel_name), NotificationManager.IMPORTANCE_DEFAULT)
+            ch.description = lc.getString(R.string.channel_desc)
             ctx.getSystemService(NotificationManager::class.java).createNotificationChannel(ch)
         }
         val list = items.distinctBy { it.key() }.sortedByDescending { it.time }
@@ -287,10 +288,10 @@ class NotifyWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params)
 
         // Resumo do grupo: é ele que avisa (vibra) uma vez só.
         val sources = list.map { it.source }.distinct()
-        val title = "$n novas • " + sources.take(3).joinToString(", ") + if (sources.size > 3) "…" else ""
+        val title = lc.getString(R.string.digest_title, n, sources.take(3).joinToString(", ") + if (sources.size > 3) "…" else "")
         val style = NotificationCompat.InboxStyle()
         list.take(5).forEach { style.addLine(it.source + " • " + it.title) }
-        if (n > 5) style.setSummaryText("+${n - 5} mais")
+        if (n > 5) style.setSummaryText(lc.getString(R.string.digest_more, n - 5))
         val appPi = PendingIntent.getActivity(
             ctx, 0, openApp, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )

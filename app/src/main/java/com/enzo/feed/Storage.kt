@@ -76,3 +76,27 @@ object Cache {
         }
     }.getOrDefault(emptyList())
 }
+
+/** Notícias apagadas com o swipe: ficam escondidas mesmo depois de atualizar. */
+object Dismissed {
+    private var sp: SharedPreferences? = null
+    private val keys = LinkedHashSet<String>()
+
+    fun init(ctx: Context) {
+        if (sp != null) return
+        val p = ctx.applicationContext.getSharedPreferences("dismissed", Context.MODE_PRIVATE)
+        sp = p
+        runCatching {
+            val a = JSONArray(p.getString("keys", "[]"))
+            for (i in 0 until a.length()) keys.add(a.getString(i))
+        }
+    }
+
+    fun has(a: Article) = keys.contains(a.key())
+
+    fun add(a: Article) {
+        keys.add(a.key())
+        while (keys.size > 3000) { val it = keys.iterator(); it.next(); it.remove() }
+        sp?.edit()?.putString("keys", JSONArray(keys.toList()).toString())?.apply()
+    }
+}

@@ -11,7 +11,7 @@
             android:id="@+id/image"
             android:layout_width="match_parent" android:layout_height="190dp"
             android:scaleType="centerCrop" android:background="@color/divider"
-            android:contentDescription="Foto da notícia" />
+            android:contentDescription="@string/cd_story_photo" />
         <LinearLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -23,7 +23,7 @@
                 <ImageView
                     android:id="@+id/icon"
                     android:layout_width="18dp" android:layout_height="18dp"
-                    android:contentDescription="Ícone do site" />
+                    android:contentDescription="@string/cd_site_icon" />
                 <TextView
                     android:id="@+id/meta"
                     android:layout_width="0dp" android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 <ImageView
                     android:id="@+id/pin"
                     android:layout_width="36dp" android:layout_height="36dp"
-                    android:padding="7dp" android:contentDescription="Salvar para depois" />
+                    android:padding="7dp" android:contentDescription="@string/cd_pin" />
             </LinearLayout>
             <TextView
                 android:id="@+id/title"
@@ -42,7 +42,7 @@
             <TextView
                 android:id="@+id/play"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" android:text="▶  Ouvir episódio"
+                android:layout_marginTop="10dp" android:text="@string/listen_episode"
                 android:textColor="@color/accent" android:textSize="14sp"
                 android:visibility="gone" />
         </LinearLayout>

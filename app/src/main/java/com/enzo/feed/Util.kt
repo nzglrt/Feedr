@@ -17,7 +17,7 @@ fun Context.toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_SHORT).show(
 fun Context.openArticle(a: Article) {
     val url = a.link.ifBlank { a.audio ?: return }
     try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
-    catch (e: ActivityNotFoundException) { toast("Nenhum app para abrir o link") }
+    catch (e: ActivityNotFoundException) { toast(getString(R.string.no_app_for_link)) }
 }
 
 fun Context.openAudio(a: Article) {

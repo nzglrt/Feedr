@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -43,8 +44,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Lang.ensure(this)
         setContentView(R.layout.activity_main)
         Saved.init(this)
+        Dismissed.init(this)
         store = FeedStore(this)
         refresh = findViewById(R.id.refresh)
         list = findViewById(R.id.list)
@@ -56,6 +59,18 @@ class MainActivity : AppCompatActivity() {
         NotifyScheduler.ensure(this)
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = adapter
+        ItemTouchHelper(SwipeCallback(
+            this, true,
+            onLeft = { pos ->
+                adapter.itemAt(pos)?.let { Dismissed.add(it) }
+                adapter.removeAt(pos)
+                updateEmpty()
+            },
+            onRight = { pos ->
+                adapter.itemAt(pos)?.let { if (!Saved.has(it)) Saved.toggle(it) }
+                adapter.notifyItemChanged(pos)
+            }
+        )).attachToRecyclerView(list)
         refresh.setColorSchemeColors(getColor(R.color.accent))
         refresh.setProgressBackgroundColorSchemeColor(getColor(R.color.card))
         refresh.setOnRefreshListener { load() }
@@ -97,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         }
         for (t in enabled) {
             val tv = TextView(this)
-            tv.text = Themes.name(t.id)
+            tv.text = Themes.name(this, t.id)
             tv.textSize = 14f
             tv.gravity = Gravity.CENTER
             tv.tag = t.id
@@ -121,6 +136,10 @@ class MainActivity : AppCompatActivity() {
         tabPodcasts.setColorFilter(getColor(if (selected == "podcasts") R.color.accent else R.color.muted))
     }
 
+    private fun updateEmpty() {
+        empty.visibility = if (adapter.itemCount == 0 && !refresh.isRefreshing) View.VISIBLE else View.GONE
+    }
+
     private fun select(id: String) {
         selected = id
         paintTabs()
@@ -131,6 +150,7 @@ class MainActivity : AppCompatActivity() {
         var l = if (selected == "podcasts") all.filter { it.audio != null }
         else all.filter { it.audio == null && (selected == "inicio" || it.theme == selected) }
         if (query.isNotEmpty()) l = l.filter { it.source.contains(query, true) }
+        l = l.filter { !Dismissed.has(it) }
         adapter.submit(l)
         if (scrollTop) list.scrollToPosition(0)
         empty.visibility = if (l.isEmpty() && !refresh.isRefreshing) View.VISIBLE else View.GONE

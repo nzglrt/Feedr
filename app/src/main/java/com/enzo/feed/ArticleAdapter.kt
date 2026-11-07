@@ -1,5 +1,6 @@
 package com.enzo.feed
 
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-fun ago(t: Long): String {
+fun ago(ctx: Context, t: Long): String {
     if (t == 0L) return ""
     val m = (System.currentTimeMillis() - t) / 60000
     return when {
-        m < 1 -> "agora"
+        m < 1 -> ctx.getString(R.string.ago_now)
         m < 60 -> "${m}min"
         m < 1440 -> "${m / 60}h"
         else -> "${m / 1440}d"
@@ -31,6 +32,15 @@ class ArticleAdapter(
     private var items = listOf<Article>()
 
     fun submit(list: List<Article>) { items = list; notifyDataSetChanged() }
+
+    fun itemAt(pos: Int): Article? = items.getOrNull(pos)
+
+    fun removeAt(pos: Int) {
+        if (pos in items.indices) {
+            items = items.toMutableList().also { it.removeAt(pos) }
+            notifyItemRemoved(pos)
+        }
+    }
 
     class VH(v: View) : RecyclerView.ViewHolder(v) {
         val image: ImageView = v.findViewById(R.id.image)
@@ -64,7 +74,7 @@ class ArticleAdapter(
             val flag = Country.flag(a.country)
             parts.add(if (flag.isEmpty()) a.source else a.source + " " + flag)
         }
-        val t = ago(a.time)
+        val t = ago(h.itemView.context, a.time)
         if (t.isNotEmpty()) parts.add(t)
         h.meta.text = parts.joinToString(" • ", prefix = "• ")
         loadIcon(h.icon, a.icon)

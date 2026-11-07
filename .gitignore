@@ -25,3 +25,6 @@ keystore.properties
 # Environment
 .env
 .env.*
+
+# Generated release APKs
+app/release/

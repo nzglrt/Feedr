@@ -15,7 +15,7 @@
             android:text="‹" android:textColor="@color/text" android:textSize="34sp" />
         <TextView
             android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:text="Salvas"
+            android:layout_weight="1" android:text="@string/pinned_title"
             android:textColor="@color/text" android:textSize="20sp" android:textStyle="bold" />
     </LinearLayout>
     <EditText
@@ -24,7 +24,7 @@
         android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/search_bg" android:padding="12dp"
-        android:hint="Filtrar por site" android:singleLine="true"
+        android:hint="@string/filter_by_site" android:singleLine="true"
         android:inputType="text" android:imeOptions="actionSearch"
         android:textColor="@color/text" android:textColorHint="@color/muted"
         android:textSize="14sp" />
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:layout_gravity="center" android:padding="32dp"
             android:gravity="center"
-            android:text="Nenhuma notícia salva ainda.\nToque no alfinete de um card para guardar."
+            android:text="@string/pinned_empty"
             android:textColor="@color/muted" android:textSize="15sp"
             android:visibility="gone" />
     </FrameLayout>

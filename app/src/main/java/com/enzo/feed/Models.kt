@@ -54,7 +54,22 @@ object Themes {
 
     fun all() = builtin + custom
     fun isCustom(id: String) = id.startsWith("c_")
-    fun name(id: String) = all().firstOrNull { it.id == id }?.name ?: id
+    private val nameRes = mapOf(
+        "inicio" to R.string.theme_inicio, "politica" to R.string.theme_politica,
+        "economia" to R.string.theme_economia, "mundo" to R.string.theme_mundo,
+        "tecnologia" to R.string.theme_tecnologia, "ciencia" to R.string.theme_ciencia,
+        "nasa" to R.string.theme_nasa, "papers" to R.string.theme_papers,
+        "saude" to R.string.theme_saude, "esportes" to R.string.theme_esportes,
+        "f1" to R.string.theme_f1, "esports" to R.string.theme_esports,
+        "entretenimento" to R.string.theme_entretenimento, "games" to R.string.theme_games,
+        "educacao" to R.string.theme_educacao, "meioambiente" to R.string.theme_meioambiente
+    )
+
+    fun name(ctx: Context, id: String): String {
+        val r = nameRes[id]
+        if (r != null) return ctx.getString(r)
+        return all().firstOrNull { it.id == id }?.name ?: id
+    }
 
     private fun norm(s: String) = " " + Normalizer.normalize(s.lowercase(), Normalizer.Form.NFD)
         .replace(Regex("\\p{InCombiningDiacriticalMarks}+"), "")
@@ -110,6 +125,12 @@ object Country {
         "JP" to "Japão", "KR" to "Coreia do Sul", "AU" to "Austrália", "CA" to "Canadá", "MX" to "México",
         "AR" to "Argentina", "CL" to "Chile", "ZA" to "África do Sul", "EU" to "União Europeia"
     )
+
+    fun displayName(ctx: Context, code: String): String {
+        if (code == "EU") return ctx.getString(R.string.country_eu)
+        val n = Locale("", code).getDisplayCountry(ctx.resources.configuration.locales[0])
+        return if (n.isBlank() || n == code) list.firstOrNull { it.first == code }?.second ?: code else n
+    }
 
     fun guess(hosts: List<String>, lang: String): String {
         for (h in hosts) {
@@ -231,8 +252,15 @@ class FeedStore(ctx: Context) {
     fun removeCustomTheme(id: String) = saveCustom(Themes.custom.filter { it.id != id })
 
     private fun defaults() = listOf(
-        Feed("https://g1.globo.com/rss/g1/", "G1"),
-        Feed("https://tecnoblog.net/feed/", "Tecnoblog", false, "tecnologia")
+        Feed("https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml", "Agência Brasil"),
+        Feed("https://agenciabrasil.ebc.com.br/rss/saude/feed.xml", "Agência Brasil Saúde", false, "saude"),
+        Feed("https://agenciabrasil.ebc.com.br/rss/esportes/feed.xml", "Agência Brasil Esportes", false, "esportes"),
+        Feed("https://www12.senado.leg.br/noticias/rss.xml", "Agência Senado", false, "politica"),
+        Feed("https://www.camara.leg.br/noticias/rss/ultimas-noticias", "Agência Câmara", false, "politica"),
+        Feed("https://agencia.fiocruz.br/rss.xml", "Fiocruz", false, "saude"),
+        Feed("https://www.gov.br/pt-br/noticias/educacao-e-pesquisa/RSS", "gov.br Educação", false, "educacao"),
+        Feed("https://www.gov.br/pt-br/noticias/energia-minerais-e-combustiveis/RSS", "gov.br Energia"),
+        Feed("https://www.nasa.gov/feed/", "NASA", false, "nasa")
     )
 }
 

@@ -16,7 +16,7 @@
             android:text="‹" android:textColor="@color/text" android:textSize="34sp" />
         <TextView
             android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:text="Notificações"
+            android:layout_weight="1" android:text="@string/notif_title"
             android:textColor="@color/text" android:textSize="20sp" android:textStyle="bold" />
     </LinearLayout>
 
@@ -37,12 +37,12 @@
                     android:layout_weight="1" android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="Receber notificações"
+                        android:text="@string/notif_receive"
                         android:textColor="@color/text" android:textSize="17sp" android:textStyle="bold" />
                     <TextView
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="Um resumo por vez, sem vibrar a cada notícia"
+                        android:text="@string/notif_receive_sub"
                         android:textColor="@color/muted" android:textSize="12sp" />
                 </LinearLayout>
                 <androidx.appcompat.widget.SwitchCompat
@@ -59,7 +59,7 @@
                 android:background="?android:attr/selectableItemBackground">
                 <TextView
                     android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:text="Frequência do resumo"
+                    android:layout_weight="1" android:text="@string/notif_freq"
                     android:textColor="@color/text" android:textSize="16sp" />
                 <TextView
                     android:id="@+id/intervalValue"
@@ -77,12 +77,12 @@
                     android:layout_weight="1" android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="Silêncio à noite"
+                        android:text="@string/notif_quiet"
                         android:textColor="@color/text" android:textSize="16sp" />
                     <TextView
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="Das 22h às 7h. As novidades chegam num resumo depois."
+                        android:text="@string/notif_quiet_sub"
                         android:textColor="@color/muted" android:textSize="12sp" />
                 </LinearLayout>
                 <androidx.appcompat.widget.SwitchCompat
@@ -97,17 +97,17 @@
                 android:paddingTop="20dp" android:paddingBottom="8dp">
                 <TextView
                     android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:text="AVISAR DESTES SITES"
+                    android:layout_weight="1" android:text="@string/notif_sites"
                     android:textColor="@color/muted" android:textSize="12sp" android:textStyle="bold" />
                 <TextView
                     android:id="@+id/btnAll"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:padding="6dp" android:text="Todos"
+                    android:padding="6dp" android:text="@string/all_label"
                     android:textColor="@color/accent" android:textSize="13sp" />
                 <TextView
                     android:id="@+id/btnNone"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:padding="6dp" android:text="Nenhum"
+                    android:padding="6dp" android:text="@string/none_label"
                     android:textColor="@color/accent" android:textSize="13sp" />
             </LinearLayout>
             <EditText
@@ -116,7 +116,7 @@
                 android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/search_bg" android:padding="14dp"
-                android:hint="Buscar site" android:singleLine="true"
+                android:hint="@string/search_site" android:singleLine="true"
                 android:inputType="text" android:imeOptions="actionSearch"
                 android:textColor="@color/text" android:textColorHint="@color/muted"
                 android:textSize="15sp" />
@@ -127,7 +127,7 @@
             <TextView
                 android:id="@+id/emptyFeeds"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:padding="20dp" android:text="Nenhum feed encontrado."
+                android:padding="20dp" android:text="@string/no_feeds_simple"
                 android:textColor="@color/muted" android:textSize="14sp"
                 android:visibility="gone" />
         </LinearLayout>

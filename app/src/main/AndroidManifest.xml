@@ -6,7 +6,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Feedr"
         android:theme="@style/AppTheme"
-        android:allowBackup="true">
+        android:allowBackup="true"
+        android:localeConfig="@xml/locales_config">
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,5 +17,11 @@
         <activity android:name=".SettingsActivity" android:exported="false" />
         <activity android:name=".SavedActivity" android:exported="false" />
         <activity android:name=".NotificationsActivity" android:exported="false" />
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data android:name="autoStoreLocales" android:value="true" />
+        </service>
     </application>
 </manifest>
